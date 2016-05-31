@@ -1,0 +1,12 @@
+{
+  "name": "telepresence",
+  "version": "1.0.0",
+  "description": "code for controling two servos with an arduino on the web throught the serial port",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "author": "yxdunc",
+  "license": "ISC"
+}

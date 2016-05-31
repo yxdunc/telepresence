@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PAUL 2.0</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+
+  <script>
+  var socket = io();
+  var toSend = 0;
+  $(function() {
+    $( "#slider-vertical" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 14,
+      max: 42,
+      value: 25,
+      slide: function( event, ui ) {
+        $( "#x_axis" ).val( ui.value );
+	console.log(event);
+	toSend = ui.value;
+        socket.emit('chat message', toSend);
+      }
+    });
+
+    $( "#slider-horizontal" ).slider({
+      orientation: "horizontal",
+      range: "min",
+      min: 50,
+      max: 99,
+      value: 75,
+      slide: function( event, ui ) {
+        $( "#y_axis" ).val( ui.value - 50 );
+	console.log(event);
+	toSend = ui.value;
+        socket.emit('chat message', toSend);
+      }
+    });
+    $(document).mouseup(function() {
+        socket.emit('chat message', toSend);
+    });
+    $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+  });
+  </script>
+</head>
+<body>
+
+<p>
+  <label for="x_axis"> x: </label>
+  <input type="text" id="x_axis" readonly style="border:0; color:#f6931f; font-weight:bold;">
+  <label for="y_axis"> y: </label>
+  <input type="text" id="y_axis" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+
+<div id="slider-vertical" style="height:200px;margin-left:100px"></div>
+<div id="slider-horizontal" style="width:200px;"></div>
+
+
+</body>
+</html>
